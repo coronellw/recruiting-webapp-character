@@ -1,11 +1,8 @@
-import { useState } from 'react';
 import './App.css';
-import { ATTRIBUTE_LIST, CLASS_LIST, SKILL_LIST } from './consts.js';
 import Character from './components/character';
 
 
 function App() {
-  const [num, setNum] = useState<number>(0);
   return (
     <div className="App">
       <header className="App-header">
