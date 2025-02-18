@@ -37,8 +37,20 @@ export default function Character() {
   }
 
   useEffect(() => {
-    // code to recover character from the server
+    fetchCharacter();
   },[])
+
+  // code to recover character from the server
+  async function fetchCharacter() {
+    try {
+      const response = await fetch("https://recruiting.verylongdomaintotestwith.ca/api/coronellw/character");
+      const data = await response.json();
+      console.log(data);
+      setAttributes(data.body.attributes);
+    } catch (error) {
+      alert("Error recovering character");
+    }
+  }
 
   return (
     <div>
