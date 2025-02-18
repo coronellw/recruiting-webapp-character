@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ATTRIBUTE_LIST, CLASS_LIST } from "../../consts";
+import { CLASS_LIST } from "../../consts";
 import AttributeModifier from "../attribute-modifier/attribute-modifier";
 import ClassType from "../class-type";
 import { Attributes, Class } from "../../types";
@@ -9,12 +9,14 @@ import SkillList from "../skill-list";
 
 const LEVEL_RESTRICTIONS = 70
 
-export default function Character() {
+type CharacterProps = {
+  name: string;
+  attributes: Attributes;
+}
+
+export default function Character({attributes: characterAttributes, name}: CharacterProps) {
   const [attributes, setAttributes] = useState<Attributes>(
-    ATTRIBUTE_LIST.reduce(
-      (acc, attribute) => ({ ...acc, [attribute]: 10 }),
-      {} as Attributes
-    )
+    characterAttributes
   );
   const [currentLevel, setCurrentLevel] = useState(
     Object.values(attributes).reduce((acc, value) => acc + value, 0)
@@ -74,7 +76,7 @@ export default function Character() {
 
   return (
     <div>
-      <h1>Character ({currentLevel})</h1>
+      <h1>Character-[{name}] ({currentLevel})</h1>
 
       <div className="stats">
         <div className="attributes">
