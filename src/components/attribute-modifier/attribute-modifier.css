@@ -1,0 +1,10 @@
+.attribute {
+    display:  flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+}
+
+.attribute__name {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
