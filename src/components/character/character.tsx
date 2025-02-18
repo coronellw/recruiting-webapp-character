@@ -7,6 +7,8 @@ import { Attributes, Class } from "../../types";
 import "./character.css";
 import SkillList from "../skill-list";
 
+const LEVEL_RESTRICTIONS = 70
+
 export default function Character() {
   const [attributes, setAttributes] = useState<Attributes>(
     ATTRIBUTE_LIST.reduce(
@@ -14,6 +16,13 @@ export default function Character() {
       {} as Attributes
     )
   );
+  const [currentLevel, setCurrentLevel] = useState(
+    Object.values(attributes).reduce((acc, value) => acc + value, 0)
+  );
+
+  useEffect(() => {
+    setCurrentLevel(Object.values(attributes).reduce((acc, value) => acc + value, 0));
+  }, [attributes]);
 
   const saveCharacter = async() => {
     try {
@@ -52,9 +61,20 @@ export default function Character() {
     }
   }
 
+  const onIncrease = (attribute: string) => {
+    
+    if (currentLevel >= LEVEL_RESTRICTIONS) {
+      return;
+    }
+    setAttributes((prev) => ({
+      ...prev,
+      [attribute]: prev[attribute] + 1,
+    }))
+  }
+
   return (
     <div>
-      <h1>Character</h1>
+      <h1>Character ({currentLevel})</h1>
 
       <div className="stats">
         <div className="attributes">
@@ -64,12 +84,7 @@ export default function Character() {
               key={attribute}
               name={attribute}
               value={value}
-              handleIncrease={() =>
-                setAttributes((prev) => ({
-                  ...prev,
-                  [attribute]: prev[attribute] + 1,
-                }))
-              }
+              handleIncrease={() => onIncrease(attribute)}
               handleDecrease={() =>
                 setAttributes((prev) => ({
                   ...prev,

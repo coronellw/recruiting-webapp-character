@@ -17,12 +17,15 @@ export default function AttributeModifier({
   handleIncrease,
   handleDecrease,
 }: AttributeModifierProps) {
-
   return (
     <span className="skill">
-      <span className="skill__name">{skill}</span>
-      <span>{value}</span>
-      <span>(Modifier: {modifier}): {modifierPoints}</span>
+      <span>
+        <span className="skill__name">{skill}:</span>
+        <span>{" " + value}</span>
+      </span>
+      <span>
+        (Modifier: {modifier}): {modifierPoints}
+      </span>
       <span>
         <button onClick={() => handleIncrease(skill)}>+</button>
         <button onClick={() => handleDecrease(skill)}>-</button>

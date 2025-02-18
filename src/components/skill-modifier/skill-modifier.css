@@ -2,6 +2,8 @@
     display:  flex;
     flex-direction: column;
     border: 1px solid #ccc;
+    padding: 1rem 0;
+    gap: .5rem;
 }
 
 .skill__name {
