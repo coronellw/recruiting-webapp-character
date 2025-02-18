@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ATTRIBUTE_LIST, CLASS_LIST } from "../../consts";
 import AttributeModifier from "../attribute-modifier/attribute-modifier";
 import ClassType from "../class-type";
@@ -14,6 +14,31 @@ export default function Character() {
       {} as Attributes
     )
   );
+
+  const saveCharacter = async() => {
+    try {
+      const response = await fetch("https://recruiting.verylongdomaintotestwith.ca/api/coronellw/character", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          attributes,
+        }),
+      })
+      if (response.ok) {
+        alert("Character saved successfully")
+      } else {
+        alert("Error saving character")
+      }
+    } catch (error) {
+      alert("Error saving character")
+    }
+  }
+
+  useEffect(() => {
+    // code to recover character from the server
+  },[])
 
   return (
     <div>
@@ -68,6 +93,8 @@ export default function Character() {
             )}
           />
         </div>
+
+        <button onClick={saveCharacter}>SAVE</button>
       </div>
     </div>
   );
