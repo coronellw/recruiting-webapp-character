@@ -10,3 +10,28 @@
   color: green;
   cursor: pointer;
 }
+
+.minRequirements {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  background-color: #333;
+  border: 1px solid #777;
+  border-radius: 5px;
+  padding: 4rem 0
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.attribute__value {
+  font-weight: bold;
+}
+
+.attribute__value--complies {
+  color: rgb(82, 219, 82);
+}
