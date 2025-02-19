@@ -1,0 +1,19 @@
+.field {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.success {
+  color: #4caf50;
+}
+
+.failed {
+  color: #f44336;
+}
+
+.dcField {
+   width: 4rem;
+}

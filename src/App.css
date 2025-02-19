@@ -66,7 +66,7 @@
   padding: .5rem 1rem;
   cursor: pointer;
   opacity: .9;
-  border-radius: 15px;
+  border-radius: 6px;
 }
 
 .btn:hover {
@@ -82,4 +82,14 @@
 .btn--danger {
   background-color: rgb(167, 35, 35);
   color: #f9f9f9;
+}
+
+.btn--warning {
+  background-color: rgb(255, 193, 7);
+  color: #282c34;
+  font-weight: bold;
+}
+
+.btn--warning:hover {
+  color: #040a18;
 }

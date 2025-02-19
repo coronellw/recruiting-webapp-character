@@ -1,32 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SkillModifier from "../skill-modifier";
-import { Attributes } from "../../types";
+import { Attributes, Skill } from "../../types";
 import { SKILL_LIST } from "../../consts";
 
-import "./skill-list.css"
+import "./skill-list.css";
 
 type SkillListProps = {
   abilityPoints: number;
   modifierPointsPerAttributes: Attributes;
+  updateSkillTree: (skillsTree: Skill[]) => void;
 };
-
-type skill = { name: string; attributeModifier: string; value: number };
 
 function SkillList({
   abilityPoints,
+  updateSkillTree,
   modifierPointsPerAttributes,
 }: SkillListProps) {
   const [usedPoints, setUsedPoints] = useState<number>(0);
-  const [skills, setSkills] = useState<skill[]>(
+  const [skills, setSkills] = useState<Skill[]>(
     SKILL_LIST.reduce((acc, skill) => {
       return [...acc, { ...skill, value: 0 }];
-    }, [] as skill[])
+    }, [] as Skill[])
   );
 
   const onIncrease = (skill: string) => {
     if (usedPoints >= abilityPoints) {
-      alert("No more points available")
-      return 
+      alert("No more points available");
+      return;
     }
     setSkills((prev) =>
       prev.map((s) => {
@@ -50,6 +50,10 @@ function SkillList({
     );
     setUsedPoints((prev) => prev - 1);
   };
+
+  useEffect(() => {
+    updateSkillTree(skills);
+  }, [skills, updateSkillTree]);
 
   return (
     <div>
