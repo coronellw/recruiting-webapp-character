@@ -28,7 +28,7 @@ export default function AttributeModifier({
       </span>
       <span>
         <button onClick={() => handleIncrease(skill)}>+</button>
-        <button onClick={() => handleDecrease(skill)}>-</button>
+        <button disabled={value <= 0} onClick={() => handleDecrease(skill)}>-</button>
       </span>
       <span>Total: {modifierPoints + value}</span>
     </span>

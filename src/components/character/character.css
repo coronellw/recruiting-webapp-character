@@ -1,3 +1,28 @@
 h2 {
   color: #426f8d;
 }
+
+.character {
+  padding: 2rem 0;
+  border: 1px solid white;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0 2rem;
+}
+
+.attributes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5rem;
+  align-items: start;
+  align-content: start;
+}
+
+.attributes h2 {
+  grid-column: span 2;
+}

@@ -3,6 +3,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
+  background-color: hsl(220deg 13% 13%);
 }
 
 .App-logo {
@@ -30,6 +31,7 @@
   flex: 1 1 0;
   background-color: hsl(220deg 13% 13%);
   color: white;
+  padding: 4rem 2rem;
 }
 
 .App-link {
@@ -43,4 +45,41 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.actions {
+  position: sticky;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  top: 0;
+  background-color: transparent;
+  padding: 1rem;
+  background-color: rgba(40, 44, 52, 0.95);
+}
+
+.message {
+  color: white;
+}
+
+.btn {
+  padding: .5rem 1rem;
+  cursor: pointer;
+  opacity: .9;
+  border-radius: 15px;
+}
+
+.btn:hover {
+  opacity: 1;
+  color: #fff;
+}
+
+.btn--success {
+  background-color: rgb(62, 146, 62);
+  color: #f9f9f9;
+}
+
+.btn--danger {
+  background-color: rgb(167, 35, 35);
+  color: #f9f9f9;
 }

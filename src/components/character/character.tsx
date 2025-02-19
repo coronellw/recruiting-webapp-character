@@ -7,76 +7,58 @@ import { Attributes, Class } from "../../types";
 import "./character.css";
 import SkillList from "../skill-list";
 
-const LEVEL_RESTRICTIONS = 70
+const LEVEL_RESTRICTIONS = 70;
 
 type CharacterProps = {
   name: string;
   attributes: Attributes;
-}
+  updateCharacter: (name: string, attributes: Attributes) => void;
+  deleteCharacter: (name: string) => void;
+};
 
-export default function Character({attributes: characterAttributes, name}: CharacterProps) {
-  const [attributes, setAttributes] = useState<Attributes>(
-    characterAttributes
-  );
+export default function Character({
+  attributes: characterAttributes,
+  updateCharacter,
+  deleteCharacter,
+  name,
+}: CharacterProps) {
+  const [attributes, setAttributes] = useState<Attributes>(characterAttributes);
   const [currentLevel, setCurrentLevel] = useState(
     Object.values(attributes).reduce((acc, value) => acc + value, 0)
   );
 
   useEffect(() => {
-    setCurrentLevel(Object.values(attributes).reduce((acc, value) => acc + value, 0));
-  }, [attributes]);
-
-  const saveCharacter = async() => {
-    try {
-      const response = await fetch("https://recruiting.verylongdomaintotestwith.ca/api/coronellw/character", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          attributes,
-        }),
-      })
-      if (response.ok) {
-        alert("Character saved successfully")
-      } else {
-        alert("Error saving character")
-      }
-    } catch (error) {
-      alert("Error saving character")
+    const newLevel = Object.values(attributes).reduce(
+      (acc, value) => acc + value,
+      0
+    );
+    if (newLevel !== currentLevel) {
+      setCurrentLevel(newLevel);
+      updateCharacter(name, attributes);
     }
-  }
-
-  useEffect(() => {
-    fetchCharacter();
-  },[])
-
-  // code to recover character from the server
-  async function fetchCharacter() {
-    try {
-      const response = await fetch("https://recruiting.verylongdomaintotestwith.ca/api/coronellw/character");
-      const data = await response.json();
-      console.log(data);
-      setAttributes(data.body.attributes);
-    } catch (error) {
-      alert("Error recovering character");
-    }
-  }
+  }, [attributes, currentLevel, name, updateCharacter]);
 
   const onIncrease = (attribute: string) => {
-    
     if (currentLevel >= LEVEL_RESTRICTIONS) {
       return;
     }
     setAttributes((prev) => ({
       ...prev,
       [attribute]: prev[attribute] + 1,
-    }))
-  }
+    }));
+  };
+
+  const handleDeleteCharacter = () => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      deleteCharacter(name);
+    }
+  };
 
   return (
-    <div>
-      <h1>Character-[{name}] ({currentLevel})</h1>
+    <div className="character">
+      <h1>
+        Character-[{name}] ({currentLevel})
+      </h1>
 
       <div className="stats">
         <div className="attributes">
@@ -112,7 +94,9 @@ export default function Character({attributes: characterAttributes, name}: Chara
         <div className="skills">
           <h2>Skills</h2>
           <SkillList
-            abilityPoints={10 + Math.floor(attributes.Intelligence / 2)}
+            abilityPoints={
+              10 + 4 * (Math.floor(attributes.Intelligence / 2) - 5)
+            }
             modifierPointsPerAttributes={Object.keys(attributes).reduce(
               (acc, attribute) => ({
                 ...acc,
@@ -122,9 +106,11 @@ export default function Character({attributes: characterAttributes, name}: Chara
             )}
           />
         </div>
-
-        <button onClick={saveCharacter}>SAVE</button>
       </div>
+      {/* <button className="btn btn--success" onClick={updateCharacter}>SAVE</button> */}
+      <button className="btn btn--danger" onClick={handleDeleteCharacter}>
+        DELETE
+      </button>
     </div>
   );
 }

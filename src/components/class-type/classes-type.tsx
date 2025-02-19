@@ -38,6 +38,7 @@ export default function ClassType({
 
       {showRequirements && (
         <div className="minRequirements" ref={clickRef}>
+          <h2>{classType}</h2>
           <h4>Minimum Requirements</h4>
           <ul>
             {Object.entries(classAttributes).map(([attribute, value]) => (
@@ -55,9 +56,8 @@ export default function ClassType({
             ))}
           </ul>
           <button
-            className="close"
+            className="btn btn--danger"
             onClick={() => {
-              console.log("clicked", showRequirements);
               setShowRequirements(false);
             }}
           >

@@ -3,6 +3,8 @@ import SkillModifier from "../skill-modifier";
 import { Attributes } from "../../types";
 import { SKILL_LIST } from "../../consts";
 
+import "./skill-list.css"
+
 type SkillListProps = {
   abilityPoints: number;
   modifierPointsPerAttributes: Attributes;
@@ -52,7 +54,7 @@ function SkillList({
   return (
     <div>
       <p>Total skill points available: {abilityPoints - usedPoints}</p>
-      <ul className="skills">
+      <div className="skillList">
         {skills.map(({ name, attributeModifier, value }) => (
           <SkillModifier
             key={name}
@@ -64,7 +66,7 @@ function SkillList({
             handleIncrease={onIncrease}
           />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

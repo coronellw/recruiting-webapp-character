@@ -22,7 +22,7 @@ export default function AttributeModifier({
       <span>(Modifier: {modifier - 5})</span>
       <span>
         <button onClick={handleIncrease}>+</button>
-        <button onClick={handleDecrease}>-</button>
+        <button disabled={value <= 0} onClick={handleDecrease}>-</button>
       </span>
     </span>
   );
