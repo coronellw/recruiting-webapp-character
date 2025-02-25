@@ -57,3 +57,5 @@ export const SKILL_LIST = [
     { name: 'Survival', attributeModifier: 'Wisdom' },
 
 ]
+
+export const LEVEL_RESTRICTION = 70

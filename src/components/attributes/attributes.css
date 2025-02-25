@@ -1,0 +1,9 @@
+.attributes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, min-content));
+  gap: .5rem;
+}
+
+.attributes .title {
+  grid-column: 1/-1;
+}

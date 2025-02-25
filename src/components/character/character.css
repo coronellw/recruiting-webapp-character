@@ -9,32 +9,19 @@ h2 {
   margin-bottom: 1rem;
 }
 
+.character__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: min-content 1fr;
-  padding: 0 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+  justify-content: center;
+  align-items: center;
 }
 
-.attributes {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: .5rem;
-  align-items: start;
-  align-content: start;
-}
-
-.attributes h2 {
-  grid-column: span 2;
-}
-
-.skills {
-  grid-row: span 2;
-  grid-column: 3;
-}
-
-.skillCheck {
-  grid-row: 2;
-  grid-column: span 2;
-  align-self: center;
-}

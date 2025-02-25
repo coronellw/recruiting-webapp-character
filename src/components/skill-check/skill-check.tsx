@@ -1,56 +1,59 @@
-import { useRef, useState } from "react";
-import { SKILL_LIST } from "../../consts";
-import { Skill } from "../../types";
-import classNames from "classnames";
-import "./skill-check.css";
+import { useRef, useState } from "react"
+import { Skill } from "../../types"
+import classNames from "classnames"
+import "./skill-check.css"
+import { PrimitiveAtom, useAtom } from "jotai"
+import { SKILL_LIST } from "../../consts"
 
-const MAX_ROLL = 20;
+const MAX_ROLL = 20
 
 type SkillCheckProps = {
-  skillTree: Skill[];
-};
+  skillAtom: PrimitiveAtom<Record<string, number>>
+}
 
-function SkillCheck({ skillTree }: SkillCheckProps) {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [randomRoll, setRandomRoll] = useState(0);
-  const [skill, setSkill] = useState<Skill>();
-  const [success, setSuccess] = useState(false);
-  const [dc, setDc] = useState<string>("");
-  const [showResult, setShowResult] = useState(false);
+function SkillCheck({ skillAtom }: SkillCheckProps) {
+  const formRef = useRef<HTMLFormElement>(null)
+  const [skills] = useAtom(skillAtom)
+  const [randomRoll, setRandomRoll] = useState(0)
+  const [skill, setSkill] = useState<Skill>()
+  const [success, setSuccess] = useState(false)
+  const [dc, setDc] = useState<string>("")
+  const [showResult, setShowResult] = useState(false)
 
   const handleRoll = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!formRef.current) {
-      return;
+      return
     }
-    const formData = new FormData(formRef.current);
-    const skillName = formData.get("skill") as string;
-    const skill = skillTree.find((s) => s.name === skillName);
-    const dc = formData.get("dc") as string;
-    const roll = Math.floor(Math.random() * MAX_ROLL) + 1;
+    const formData = new FormData(formRef.current)
+    const skillName = formData.get("skill") as string
+    const skillValue = skills[skillName]
+    const dc = formData.get("dc") as string
+    const roll = Math.floor(Math.random() * MAX_ROLL) + 1
 
-    const dcIntValue = parseInt(dc, 10);
+    const dcIntValue = parseInt(dc, 10)
     if (isNaN(dcIntValue) || !skill || !dc) {
-      console.error("DC is not a number");
-      return;
+      console.error("DC is not a number")
+      return
     }
 
-    setSuccess(roll + skill.value >= dcIntValue);
-    setDc(dc);
-    setSkill(skill);
-    setRandomRoll(roll);
+    setSuccess(roll + skillValue >= dcIntValue)
+    setDc(dc)
+    setSkill(skill)
+    setRandomRoll(roll)
 
-    setShowResult(true);
-  };
+    setShowResult(true)
+  }
 
   return (
-    <div>
+    <div className="skillCheck">
+      <h2>Skill Check</h2>
       <div className="skill-check">
         <form ref={formRef} onSubmit={handleRoll} className="skill-check__roll">
           <label className="field">
             Skill:{" "}
             <select name="skill">
-              {skillTree.map((skill) => (
+              {SKILL_LIST.map((skill) => (
                 <option key={skill.name} value={skill.name}>
                   {skill.name}
                 </option>
@@ -59,7 +62,14 @@ function SkillCheck({ skillTree }: SkillCheckProps) {
           </label>
 
           <label className="field">
-            DC: <input type="number" name="dc" defaultValue={0} placeholder="number" className="dcField" />
+            DC:{" "}
+            <input
+              type="number"
+              name="dc"
+              defaultValue={0}
+              placeholder="number"
+              className="dcField"
+            />
           </label>
           <button className="btn btn--warning">Roll</button>
         </form>
@@ -86,7 +96,7 @@ function SkillCheck({ skillTree }: SkillCheckProps) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default SkillCheck;
+export default SkillCheck

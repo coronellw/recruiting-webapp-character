@@ -47,6 +47,15 @@
   }
 }
 
+.characters {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  max-width: 1440px;
+  width: 100%;
+  margin: 4rem auto;
+}
+
 .actions {
   position: sticky;
   display: flex;
@@ -60,6 +69,7 @@
 
 .message {
   color: white;
+  padding: 2rem 0;
 }
 
 .btn {
