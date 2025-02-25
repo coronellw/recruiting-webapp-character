@@ -50,7 +50,7 @@ export default function CharacterComponent({ characterAtom }: CharacterProps) {
 
         <ClassesComponent attributes={character.attributes} />
 
-        <SkillCheck skillAtom={skillsAtom} />
+        <SkillCheck skillAtom={skillsAtom} attributes={character.attributes} />
       </div>
       <SkillList attributes={character.attributes} skillsAtom={skillsAtom} />
 

@@ -62,9 +62,9 @@
   justify-content: flex-end;
   gap: 1rem;
   top: 0;
-  background-color: transparent;
   padding: 1rem;
   background-color: rgba(40, 44, 52, 0.95);
+  z-index: 100;
 }
 
 .message {

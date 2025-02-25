@@ -1,5 +1,5 @@
-import { useRef, useState } from "react"
-import { Skill } from "../../types"
+import { useMemo, useRef, useState } from "react"
+import { Attributes, Skill } from "../../types"
 import classNames from "classnames"
 import "./skill-check.css"
 import { PrimitiveAtom, useAtom } from "jotai"
@@ -8,10 +8,11 @@ import { SKILL_LIST } from "../../consts"
 const MAX_ROLL = 20
 
 type SkillCheckProps = {
+  attributes: Attributes
   skillAtom: PrimitiveAtom<Record<string, number>>
 }
 
-function SkillCheck({ skillAtom }: SkillCheckProps) {
+function SkillCheck({ skillAtom, attributes }: SkillCheckProps) {
   const formRef = useRef<HTMLFormElement>(null)
   const [skills] = useAtom(skillAtom)
   const [randomRoll, setRandomRoll] = useState(0)
@@ -20,6 +21,18 @@ function SkillCheck({ skillAtom }: SkillCheckProps) {
   const [dc, setDc] = useState<string>("")
   const [showResult, setShowResult] = useState(false)
 
+  const modifierPointsPerAttributes = useMemo(
+      () =>
+        Object.keys(attributes).reduce(
+          (acc, attribute) => ({
+            ...acc,
+            [attribute]: Math.floor(attributes[attribute] / 2) - 5,
+          }),
+          {} as Attributes
+        ),
+      [attributes]
+    )
+
   const handleRoll = (e: React.FormEvent) => {
     e.preventDefault()
     if (!formRef.current) {
@@ -27,19 +40,26 @@ function SkillCheck({ skillAtom }: SkillCheckProps) {
     }
     const formData = new FormData(formRef.current)
     const skillName = formData.get("skill") as string
-    const skillValue = skills[skillName]
+    const skillValue = skills[skillName] || 0
+    const skillStats = SKILL_LIST.find((skill) => skill.name === skillName)
+    const pointsPerModifier = modifierPointsPerAttributes[skillStats?.attributeModifier || ""] || 0
+
     const dc = formData.get("dc") as string
     const roll = Math.floor(Math.random() * MAX_ROLL) + 1
 
     const dcIntValue = parseInt(dc, 10)
-    if (isNaN(dcIntValue) || !skill || !dc) {
+    if (isNaN(dcIntValue)) {
       console.error("DC is not a number")
       return
     }
+    if (!skillStats) {
+      console.error("Skill not found")
+      return
+    }
 
-    setSuccess(roll + skillValue >= dcIntValue)
+    setSuccess(roll + skillValue + pointsPerModifier>= dcIntValue)
     setDc(dc)
-    setSkill(skill)
+    setSkill({ ...skillStats, value: skillValue })
     setRandomRoll(roll)
 
     setShowResult(true)
@@ -77,7 +97,7 @@ function SkillCheck({ skillAtom }: SkillCheckProps) {
           <div className="skill-check__result">
             <h2>Result</h2>
             <label className="field">
-              Skill: {skill.name}:<strong>{skill.value}</strong>
+              Skill: {skill.name}:<strong>{skill.value + modifierPointsPerAttributes[skill.attributeModifier]}</strong>
             </label>
             <label className="field">You rolled: {randomRoll}</label>
             <label className="field">DC: {dc}</label>

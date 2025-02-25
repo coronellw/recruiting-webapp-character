@@ -14,12 +14,6 @@ type SkillListProps = {
 function SkillList({ attributes, skillsAtom }: SkillListProps) {
   const [skills, setSkills] = useAtom(skillsAtom)
   const [usedPoints, setUsedPoints] = useState<number>(Object.values(skills).reduce((acc, value) => acc + value, 0))
-  // useState<Skill[]>(
-  //   SKILL_LIST.reduce((acc, skill) => {
-  //     return [...acc, { ...skill, value: 0 }]
-  //   }, [] as Skill[])
-  // )
-  console.log(skills)
 
   const abilityPoints = useMemo(
     () => 10 + 4 * (Math.floor(attributes.Intelligence / 2) - 5),
