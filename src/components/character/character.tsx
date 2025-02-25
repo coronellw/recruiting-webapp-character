@@ -51,10 +51,8 @@ export default function CharacterComponent({ characterAtom }: CharacterProps) {
         <ClassesComponent attributes={character.attributes} />
 
         <SkillCheck skillAtom={skillsAtom} />
-
-        {/* <SkillList attributes={character.attributes} skillsAtom={skillsAtom} /> */}
-
       </div>
+      <SkillList attributes={character.attributes} skillsAtom={skillsAtom} />
 
       <div className="character__actions">
         <button className="btn btn--danger" onClick={handleDeleteCharacter}>
